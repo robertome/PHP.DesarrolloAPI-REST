@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "MiW User REST API",
+    "title": "MiW Users and Results REST API",
     "description": "[UPM] MiW User REST API operations",
     "license": {
       "name": "MIT License",
@@ -10,81 +10,13 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/login_check": {
-      "post": {
-        "tags": [
-          "login"
-        ],
-        "summary": "Returns UPM18 api token",
-        "description": "Returns UPM18 api token.",
-        "operationId": "miw_post_login",
-        "responses": {
-          "200": {
-            "description": "Results api token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                  }
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "_username": {
-                    "description": "User name",
-                    "type": "string"
-                  },
-                  "_password": {
-                    "description": "User password",
-                    "type": "string",
-                    "format": "password"
-                  }
-                },
-                "required": [
-                  "_username",
-                  "_password"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
     "/users": {
       "get": {
         "tags": [
           "Users"
         ],
         "summary": "Returns all users",
-        "description": "Returns all users from the system that the user has access to.",
+        "description": "Returns all users from the system.",
         "operationId": "miw_cget_users",
         "responses": {
           "200": {
@@ -94,34 +26,13 @@
                 "schema": {
                   "$ref": "#/components/schemas/UsersArray"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsersArray"
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsersArray"
-                }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          },
-          "403": {
-            "$ref": "#/components/responses/403_Forbidden_Response"
           },
           "404": {
             "$ref": "#/components/responses/404_Resource_Not_Found_Response"
           }
-        },
-        "security": [
-          {
-            "UPM_API_Security": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -138,16 +49,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
               }
             }
           },
@@ -158,24 +59,8 @@
                 "schema": {
                   "$ref": "#/components/schemas/Message"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          },
-          "403": {
-            "$ref": "#/components/responses/403_Forbidden_Response"
           },
           "422": {
             "description": "`Unprocessable entity` Username, e-mail or password is left out",
@@ -184,25 +69,10 @@
                 "schema": {
                   "$ref": "#/components/schemas/Message"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
               }
             }
           }
         },
-        "security": [
-          {
-            "UPM_API_Security": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -218,27 +88,6 @@
           },
           "description": "`User` properties to add to the system",
           "required": true
-        }
-      },
-      "options": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Provides the list of HTTP supported methods",
-        "description": "Return a `Allow` header with a list of HTTP supported methods.",
-        "operationId": "miw_options_users",
-        "responses": {
-          "200": {
-            "description": "`Allow` header ",
-            "headers": {
-              "allow": {
-                "description": "List of HTTP supported methods",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
         }
       }
     },
@@ -263,34 +112,13 @@
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/x-yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          },
-          "403": {
-            "$ref": "#/components/responses/403_Forbidden_Response"
           },
           "404": {
             "$ref": "#/components/responses/404_Resource_Not_Found_Response"
           }
-        },
-        "security": [
-          {
-            "UPM_API_Security": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -305,20 +133,10 @@
           }
         ],
         "responses": {
-          "209": {
-            "description": "`Content Returned` User previously existed and is now updated",
+          "200": {
+            "description": "`OK` User previously existed and is now updated",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/x-yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
@@ -332,42 +150,26 @@
                 "schema": {
                   "$ref": "#/components/schemas/Message"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              },
-              "application/x-yaml": {
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
+          },
+          "422": {
+            "description": "`Unprocessable entity` Username, e-mail or password is left out",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Message"
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          },
-          "403": {
-            "$ref": "#/components/responses/403_Forbidden_Response"
-          },
-          "404": {
-            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
           }
         },
-        "security": [
-          {
-            "UPM_API_Security": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserData"
-              }
-            },
-            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/UserData"
               }
@@ -393,29 +195,20 @@
           "204": {
             "description": "User deleted"
           },
-          "401": {
-            "$ref": "#/components/responses/401_Unauthorized_Response"
-          },
-          "403": {
-            "$ref": "#/components/responses/403_Forbidden_Response"
-          },
           "404": {
             "$ref": "#/components/responses/404_Resource_Not_Found_Response"
           }
-        },
-        "security": [
-          {
-            "UPM_API_Security": []
-          }
-        ]
-      },
-      "options": {
+        }
+      }
+    },
+    "/users/{userId}/results": {
+      "get": {
         "tags": [
           "Users"
         ],
-        "summary": "Provides the list of HTTP supported methods",
-        "description": "Return a `Allow` header with a list of HTTP supported methods.",
-        "operationId": "miw_options_users_id",
+        "summary": "Returns results of a user based on a single ID",
+        "description": "Returns results of the user identified by `userId`.",
+        "operationId": "miw_cget_user_results",
         "parameters": [
           {
             "$ref": "#/components/parameters/userId"
@@ -423,15 +216,165 @@
         ],
         "responses": {
           "200": {
-            "description": "`Allow` header ",
-            "headers": {
-              "allow": {
-                "description": "List of HTTP supported methods",
+            "description": "Result array response",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ResultsArray"
                 }
               }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
+          }
+        }
+      }
+    },
+    "/results": {
+      "post": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Creates a new result",
+        "description": "Creates a new result",
+        "operationId": "miw_post_results",
+        "responses": {
+          "201": {
+            "description": "`Created` Result created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "`Unprocessable entity` Result or userId is left out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultData"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultData"
+              }
+            }
+          },
+          "description": "`Result` properties to add to the system",
+          "required": true
+        }
+      }
+    },
+    "/results/{resultId}": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Returns a result based on a single ID",
+        "description": "Returns the result identified by `resultId`.",
+        "operationId": "miw_get_results",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/resultId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Updates a result",
+        "description": "Updates the result identified by `resultId`.",
+        "operationId": "miw_put_results",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/resultId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "`OK` Result previously existed and is now updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
+          },
+          "422": {
+            "description": "`Unprocessable entity` Result or userId is left out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultData"
+              }
+            }
+          },
+          "description": "`Result` data to update",
+          "required": true
+        }
+      },
+      "delete": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Deletes a result",
+        "description": "Deletes the result identified by `resultId`.",
+        "operationId": "delete_result",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/resultId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Result deleted"
+          },
+          "404": {
+            "$ref": "#/components/responses/404_Resource_Not_Found_Response"
           }
         }
       }
@@ -439,12 +382,12 @@
   },
   "tags": [
     {
-      "name": "login",
-      "description": "User login"
+      "name": "Users",
+      "description": "User Administration"
     },
     {
-      "name": "Users",
-      "description": "User management"
+      "name": "Results",
+      "description": "Result Administration"
     }
   ],
   "servers": [
@@ -461,6 +404,16 @@
         "name": "userId",
         "in": "path",
         "description": "ID of user",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "resultId": {
+        "name": "resultId",
+        "in": "path",
+        "description": "ID of result",
         "required": true,
         "schema": {
           "type": "integer",
@@ -528,13 +481,6 @@
             }
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "UPM_API_Security": {
-        "type": "apiKey",
-        "name": "token",
-        "in": "header"
       }
     },
     "schemas": {
@@ -616,6 +562,74 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "Result": {
+        "required": [
+          "user",
+          "result"
+        ],
+        "properties": {
+          "id": {
+            "description": "Result Id",
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "description": "Result value",
+            "type": "integer"
+          },
+          "user": {
+            "description": "User object",
+            "type": "object"
+          },
+          "time": {
+            "description": "Date time",
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 2500,
+          "result": 5,
+          "user": {
+            "id": 1508,
+            "username": "User_name",
+            "email": "User_email@example.com",
+            "enabled": true,
+            "isAdmin": false
+          },
+          "time": "2019-01-02 21:30:22"
+        }
+      },
+      "ResultData": {
+        "required": [
+          "userId",
+          "result"
+        ],
+        "properties": {
+          "result": {
+            "description": "Result",
+            "type": "integer"
+          },
+          "userId": {
+            "description": "User ID",
+            "type": "int32"
+          }
+        },
+        "example": {
+          "result": 500,
+          "userId": 1508
+        }
+      },
+      "ResultsArray": {
+        "properties": {
+          "results": {
+            "description": "Results array",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Result"
             }
           }
         }

@@ -31,4 +31,11 @@ class Validation
         }
     }
 
+    public static function numeric(?string $property, string $message)
+    {
+        if (!is_numeric($property)) {
+            throw new ArgumentNotValidException($message . " is not numeric");
+        }
+    }
+
 }
